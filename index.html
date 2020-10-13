@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="https://d3js.org/d3-selection.v1.min.js"></script>
+        <script type="text/javascript" src="resume.js"></script>
+	</head>
+	<body onload="bodyLoaded()" onresize="windowResize()">
+        <h2>Resume Creator</h2>
+        <div class="flex_container">
+            <div style="width:47%; padding:1%;">
+                <div id="resume_form_div" style="width:98%; padding: 1%; max-height:75vh; overflow:auto;"></div>
+                <div class="flex_container p10">
+                    <div class="w25p">
+                        <div class="div_button">
+                            <input type="file" id="json_file" onchange="jsonFileUpload(this)" style="display:none;" accept=".json"/>
+                            <label for="json_file">Upload JSON</label>
+                        </div>
+                    </div>
+                    <div class="w50p"></div>
+                    <div class="w25p">
+                        <button class="db mla mr0" onclick="saveJSON()">Save JSON</button>
+                    </div>
+                </div>
+            </div>
+            <div style="width:47%; padding:1%;">
+                <div id="resume_outer_div" style="width:98%; padding: 1%; height:75vh; max-height:75vh; overflow:scroll; padding:10;">
+                    <div id="resume_div" style="margin: auto;">
+                    </div>
+                </div>
+                <div class="flex_container p5">
+                    <div class="w25p">
+                        <input id="radio_fit" type="radio" name="width_option" checked onclick="updateResume()"><span>Fit to width</span>
+                    </div>
+                    <div class="w25p">
+                        <input id="radio_actual" type="radio" name="width_option" onclick="updateResume()"><span>Actual size</span>
+                    </div>
+                    <div class="w25p"></div>
+                    <div class="w25p">
+                        <button class="db mla mr0" onclick="saveToPdf()">Save To PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
