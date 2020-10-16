@@ -1,8 +1,13 @@
 body{
-	font-family: "Helvetica";
 	margin: 0 auto;
+	font-family: Helvetica;
 }
 
+.heading{
+	font-size:26px;
+	font-weight: bold;
+	color: #969490;
+}
 #resume_name{
 	margin: 2 0;
 	text-align: center;
@@ -115,6 +120,12 @@ textarea {
 
 
 input
+{
+	font-size:13px;
+	margin-bottom: 5px;
+}
+
+select
 {
 	font-size:13px;
 	margin-bottom: 5px;

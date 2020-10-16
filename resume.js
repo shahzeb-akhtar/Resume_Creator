@@ -396,7 +396,7 @@ function windowResize(){
 
 function saveToPdf(){
     let bodyElem = d3.select('body'),
-        resumeElem = d3.select('#resume_div'),
+        resumeElem = d3.select('#resume_outer_div'),
         jsonContent = getJsonFromForm(),
         restorePage = bodyElem.html(),
         radioFitVal = d3.select('#radio_fit').property('checked'),
@@ -707,6 +707,7 @@ function addPart(d){
 
 function addChangeEventListeners(parentElem){
     parentElem.selectAll('input').on('change', updateResume);
+    parentElem.selectAll('select').on('change', updateResume);
     parentElem.selectAll('textarea').on('change', updateResume);
 }
 
@@ -782,8 +783,8 @@ function moveUpDown(d){
 
 function createFormFromJson(json){
     let formElem = d3.select('#resume_form_div');
-    let formSectionHeader, formSection, newDiv;
-
+    let formSectionHeader, fontSelection, formSection, newDiv;
+    let availableFonts = ['Alegreya', 'Archivo', 'Arvo', 'Avenir', 'B612', 'BioRhyme', 'Cairo', 'Cardo', 'Concert One', 'Cormorant', 'Courier', 'Crimson Text', 'Fira Sans', 'Fjalla One', 'Frank Ruhl Libre', 'Garamond', 'Helvetica', 'Inconsolata', 'Karla', 'Lato', 'Lora', 'Merriweather', 'Montserrat', 'Muli', 'Noto Sans', 'Nunito', 'Old Standard TT', 'Open Sans', 'Oswald', 'Oxygen', 'Playfair Display', 'Poppins', 'Proxima Nova', 'PT Sans', 'PT Serif', 'Rakkas', 'Roboto Mono', 'Roboto', 'Rubik', 'Space Mono', 'Spectral', 'Times New Roman', 'Times', 'Titillium Web', 'Ubuntu', 'Varela', 'Verdana', 'Vollkorn', 'Work Sans', 'Yatra One'];
     //remove everything
     formElem.selectAll("*").remove();
 
@@ -793,7 +794,13 @@ function createFormFromJson(json){
 
     formSection = formElem.append('div').attr('class', 'header_section flex_container');
     formSection.append('p').attr('class', 'w50p').html('Font Family');
-    formSection.append('input').attr('class', 'w50p font_family').property('value', json.fontFamily);
+    fontSelection = formSection.append('select').attr('class', 'w50p font_family');
+    availableFonts.forEach(function(font){
+        fontSelection.append('option')
+                        .attr('value', font)
+                        .html(font);
+    });
+    fontSelection.property('value', json.fontFamily);
 
     formSection.append('p').attr('class', 'w50p').html('Base Font Size (px)');
     formSection.append('input').attr('type', 'number').attr('class', 'number_input font_size').property('value', json.fontSize);
