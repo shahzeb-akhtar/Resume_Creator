@@ -1194,9 +1194,15 @@ function updateResume(formFactor){
                 if(subSection.twoColumn){
                     bulletsDiv.style('display', 'flex');
                     firstDiv = bulletsDiv.append('div')
-                                            .style('width', '50%');
+                                            .style('width', subSection.bullets ? '50%' : '48.5%');
+                    
+                    if(!subSection.bullets){
+                        // for spacing
+                        bulletsDiv.append('div').style('width', '3%');
+                    }
+                    
                     secondDiv = bulletsDiv.append('div')
-                                            .style('width', '50%');                      
+                                            .style('width', subSection.bullets ? '50%' : '48.5%');                      
                 }
                 
                 let pointsAdded = 0;
