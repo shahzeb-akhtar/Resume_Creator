@@ -387,6 +387,10 @@ let sampleJson = {
 
 let resizeTimer;
 
+function showHelp(){
+	console.log('help clicked');
+}
+
 function windowResize(){
     if(resizeTimer){
         clearTimeout(resizeTimer);
@@ -829,12 +833,12 @@ function createFormFromJson(json){
     formSection.append('input').attr('type', 'number').attr('class', 'number_input sub_section_gap')
                 .property('value', json.resumeSubSection.gap);
 
-    formSection.append('p').attr('class', 'indent_1 w48p').html('Title Relative Size');
+    formSection.append('p').attr('class', 'indent_1 w48p').html('Heading Relative Size');
     formSection.append('input').attr('type', 'number').attr('step', '0.05')
                 .attr('class', 'number_input sub_section_title_size')
                 .property('value', json.resumeSubSection.titleRelativeFontSize);
 
-    formSection.append('p').attr('class', 'indent_1 w48p').html('Sub-Title Relative Font Size');
+    formSection.append('p').attr('class', 'indent_1 w48p').html('Sub-Heading Relative Font Size');
     formSection.append('input').attr('type', 'number').attr('step', '0.05')
                 .attr('class', 'number_input sub_section_sub_title_size')
                 .property('value', json.resumeSubSection.subTitleRelativeFontSize);
@@ -1134,6 +1138,7 @@ function updateResume(formFactor){
                     .attr('class', 'contact')
                     .append('a')
                         .attr('href', 'https://github.com/' + resumeJson.contact_info.github)
+                        .attr('target', '_blank')
                         .style('color', resumeJson.color)
                         .text(resumeJson.contact_info.github);
     }
@@ -1143,13 +1148,14 @@ function updateResume(formFactor){
         contactDiv.append('span')
                     .attr('class', 'envelope_icon')
                     .append('span')
-                        .attr('class', 'fa fa-envelope')
+                        .attr('class', 'fa fa-linkedin')
                         .style('color', resumeJson.color);
 
         contactDiv.append('span')
                     .attr('class', 'contact')
                     .append('a')
                         .attr('href', 'https://www.linkedin.com/in/' + resumeJson.contact_info.linkedin)
+                        .attr('target', '_blank')
                         .style('color', resumeJson.color)
                         .text(resumeJson.contact_info.linkedin);
     }

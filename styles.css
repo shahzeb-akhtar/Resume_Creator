@@ -208,6 +208,10 @@ select
 	margin-top: 5px;
  }
 
+ .mt2{
+	margin-top: 5px;
+ }
+
  .mt-10{
 	margin-top: -10px;
  }
@@ -342,8 +346,14 @@ select
 	font-size:14px;
 	background-color:#e6e6e6;
 	border-radius: 2px;
-	width:90px;
+	width:82px;
 	border: 1px solid;
 	border-color: gray;
-	padding: 2 5;
+	padding: 2;
+}
+
+.span_link{
+	text-decoration: underline;
+	font-size:13;
+	cursor: default;
 }

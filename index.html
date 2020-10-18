@@ -12,9 +12,8 @@
             <div class="w90p">
                 <span class="db tac mra mla heading"> Resume Creator</span>
             </div>
-                <!--span class="db mr5 mla"> </span-->
             <div class="w10p">
-
+                <!--span onclick="showHelp()" class="db mr5 mla span_link">Help Video</span-->
             </div>
         </div>
         <div class="flex_container">
@@ -24,12 +23,12 @@
                     <div class="w25p">
                         <div class="div_button">
                             <input type="file" id="json_file" onchange="jsonFileUpload(this)" style="display:none;" accept=".json"/>
-                            <label for="json_file">Upload Form</label>
+                            <label title="Upload previously saved form data" for="json_file">Upload Form</label>
                         </div>
                     </div>
                     <div class="w50p"></div>
                     <div class="w25p">
-                        <button class="db mla mr0" onclick="saveJSON()">Save Form</button>
+                        <button title="Save form data to use later" class="db mla mr0" onclick="saveJSON()">Save Form</button>
                     </div>
                 </div>
             </div>
