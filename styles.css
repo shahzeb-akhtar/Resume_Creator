@@ -343,7 +343,7 @@ select
  }
 
  .div_button{
-	font-size:14px;
+	font-size:13px;
 	background-color:#e6e6e6;
 	border-radius: 2px;
 	width:82px;
@@ -356,4 +356,9 @@ select
 	text-decoration: underline;
 	font-size:13;
 	cursor: default;
+	color: #969490;
+}
+
+.radio_option{
+	font-size:13;
 }
