@@ -388,7 +388,7 @@ let sampleJson = {
 let resizeTimer;
 
 function showHelp(){
-	window.open("https://youtu.be/rx9BGUg8ur0", "_blank");
+	window.open("https://youtu.be/peUrAsUpuuo", "_blank");
 }
 
 function windowResize(){
