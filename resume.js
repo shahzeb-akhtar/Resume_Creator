@@ -484,6 +484,8 @@ function createSubSectionPart(elemSelection, jsonData){
     let formSubSection, collapsibleSection, newDiv, moreNewDiv;
 
     formSubSection = elemSelection.append('div').attr('class', 'form_sub_section flex_container');
+    formSubSection.datum({isDirty:false});
+
     createToolbar(formSubSection, 'Sub-Section');
     
     formSubSection.append('p').attr('class', 'w100p').html('Heading');
@@ -605,10 +607,16 @@ function createSubSectionPart(elemSelection, jsonData){
     return formSubSection;
 }
 
+function markAllSectionsAndSubSectionsAsNotDirty(){
+    d3.selectAll('.form_section').datum({isDirty:false});
+    d3.selectAll('.form_sub_section').datum({isDirty:false});
+}
+
 function createSectionPart(elemSelection, jsonData){
     let formSection, collapsibleSection, newDiv;
 
     formSection = elemSelection.append('div').attr('class', 'indent_1 form_section flex_container');
+    formSection.datum({isDirty:false});
 
     createToolbar(formSection, 'Section');
 
@@ -710,9 +718,22 @@ function addPart(d){
 }
 
 function addChangeEventListeners(parentElem){
-    parentElem.selectAll('input').on('change', updateResume);
-    parentElem.selectAll('select').on('change', updateResume);
-    parentElem.selectAll('textarea').on('change', updateResume);
+    parentElem.selectAll('input').on('change', somethingChanged);
+    parentElem.selectAll('select').on('change', somethingChanged);
+    parentElem.selectAll('textarea').on('change', somethingChanged);
+}
+
+function somethingChanged(){
+    markAllSectionsAndSubSectionsAsNotDirty();
+    let closestSubSection = this.closest('.form_sub_section'),
+        closestSection = this.closest('.form_section');
+    
+    if(closestSubSection){
+        d3.select(closestSubSection).datum({isDirty: true});
+    }else if (closestSection){
+        d3.select(closestSection).datum({isDirty: true});
+    }
+    updateResume();
 }
 
 function removePart(d){
@@ -976,6 +997,7 @@ function getJsonFromForm(){
     d3.selectAll('.form_section').each(function(d, i){
         formSection = d3.select(this);
         sectionData = {};
+        sectionData['isDirty'] = formSection.datum()['isDirty'];
         sectionData['title'] = {};
         sectionData['title']['text'] = formSection.select('.section_title').property('value');
         sectionData['title']['bold'] = formSection.select('.section_title_bold').property('checked');
@@ -985,6 +1007,7 @@ function getJsonFromForm(){
         formSection.selectAll('.form_sub_section').each(function(di, ii){
             formSubSection = d3.select(this);
             subSectionData = {};
+            subSectionData['isDirty'] = formSubSection.datum()['isDirty'];
             subSectionData['heading'] = {};
             subSectionData['sub_heading'] = {};
 
@@ -1028,6 +1051,7 @@ function getJsonFromForm(){
 
         jsonToReturn['sections'].push(sectionData);
     });
+    console.log(jsonToReturn);
     return jsonToReturn;
 }
 
@@ -1036,7 +1060,9 @@ function updateResume(formFactor){
         radioFit = d3.select('#radio_fit'),
         displayWidth,
         actualWidth,
-        resumeJson = getJsonFromForm();
+        resumeJson = getJsonFromForm(),
+        needToScroll = false,
+        elemToScroll;
 
     // clear everything from resume elem
     resumeElem.selectAll("*").remove();
@@ -1165,6 +1191,11 @@ function updateResume(formFactor){
         let sectionElem = resumeElem.append('div')
                                     .attr('class', 'resume_section')
                                     .style('margin', resumeJson.resumeSection.gap * formFactor + ' 0');
+
+        if(section.isDirty){
+            needToScroll = true;
+            elemToScroll = sectionElem.node();
+        }
         // add section header
         sectionElem.append('div').attr('class', 'section_header')
                     .append('p')
@@ -1183,6 +1214,11 @@ function updateResume(formFactor){
                                             .attr('class', 'section_content')
                                             .style('margin', resumeJson.resumeSubSection.gap * formFactor + ' 0');
             
+            if(subSection.isDirty){
+                needToScroll = true;
+                elemToScroll = subSectionElem.node();
+            }
+
             addResumeSubSectionHeading(subSectionElem, subSection.heading, resumeJson.fontSize * resumeJson.resumeSubSection.titleRelativeFontSize * formFactor);
 
             addResumeSubSectionHeading(subSectionElem, subSection.sub_heading, resumeJson.fontSize * resumeJson.resumeSubSection.subTitleRelativeFontSize * formFactor);
@@ -1241,6 +1277,9 @@ function updateResume(formFactor){
             }
         });
     });
+    if(needToScroll){
+        elemToScroll.scrollIntoView();
+    }
 }
 
 function addResumeSubSectionHeading(elemSelection, dataObj, fontSize){
